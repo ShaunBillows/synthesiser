@@ -104,7 +104,7 @@ func (s *Signal) ADSR(attackTime, decayTime, sustainLevel, releaseTime float64) 
 	totalSamples := len(s.Data)
 
 	for i, sample := range s.Data {
-		t := float64(i) / s.SampleRate // calculate the time for each sample
+		t := float64(i) / s.SampleRate
 
 		if t < attackTime {
 			s.Data[i] = (maxAmplitude/attackTime) * t * sample

@@ -41,12 +41,13 @@ func (a *App) Run() {
 
 	chordProgression := chord1.Add(chord2).Add(chord3).Add(chord4)
 
+	intro := chordProgression
 	verse := chordProgression.Superpose(kickDrumLoop, snareLoop)
 	chorus := verse.Superpose(highHatLoop)
-	verse2 := verse.Superpose(snare, highHat, kickDrum)
+	bridge := verse.Superpose(snare, highHat, kickDrum)
 	chorus2 := chorus.Superpose(highHat)
 
-	track := verse.Add(chorus).Add(verse2).Add(chorus2)
+	track := intro.Add(verse).Add(chorus).Add(bridge).Add(chorus2)
 
 	track.Write(output, Volume)
 }
