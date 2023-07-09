@@ -1,0 +1,33 @@
+# Go boilerplate .gitignore
+
+# Compiled Object files, Static and Dynamic libraries (Shared Object)
+*.o
+*.a
+*.so
+
+# Test binary, test coverage and profiling files
+*.test
+*.out
+*.cover
+*.prof
+
+# Compiled Go binaries
+bin/
+api-go
+
+# Dependency directories (remove the ones you don't use)
+vendor/
+Godeps/
+glide/
+.idea/
+.vscode/
+
+# Ignore any executable files
+*.exe
+
+# Operating System generated files
+Thumbs.db
+.DS_Store
+
+# Ignore the .env file
+.env
