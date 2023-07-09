@@ -15,7 +15,7 @@ func TestNormalise(t *testing.T) {
 		{
 			name: "Can normalise positive values",
 			inputSignal: &Signal{
-				Signal:   []float64{1, 2, 3, 4},
+				Data:   []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{0.25, 0.5, 0.75, 1},
@@ -23,7 +23,7 @@ func TestNormalise(t *testing.T) {
 		{
 			name: "Can normalise negative values",
 			inputSignal: &Signal{
-				Signal:   []float64{-4, -3, -2, -1},
+				Data:   []float64{-4, -3, -2, -1},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{-1, -0.75, -0.5, -0.25},
@@ -31,7 +31,7 @@ func TestNormalise(t *testing.T) {
 		{
 			name: "Can normalise mixed values",
 			inputSignal: &Signal{
-				Signal:   []float64{-3, 2, -1, 4},
+				Data:   []float64{-3, 2, -1, 4},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{-0.75, 0.5, -0.25, 1},
@@ -39,7 +39,7 @@ func TestNormalise(t *testing.T) {
 		{
 			name: "Can normalise constant values",
 			inputSignal: &Signal{
-				Signal:   []float64{100, 100, 100, 100},
+				Data:   []float64{100, 100, 100, 100},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{1, 1, 1, 1},
@@ -47,7 +47,7 @@ func TestNormalise(t *testing.T) {
 		{
 			name: "Can normalise 0 values",
 			inputSignal: &Signal{
-				Signal:   []float64{0, 0, 0, 0},
+				Data:   []float64{0, 0, 0, 0},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{0, 0, 0, 0},
@@ -58,7 +58,7 @@ func TestNormalise(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.inputSignal.Normalise()
 
-			assert.Equal(t, tt.expectedSignal, tt.inputSignal.Signal)
+			assert.Equal(t, tt.expectedSignal, tt.inputSignal.Data)
 		})
 	}
 }
@@ -74,7 +74,7 @@ func TestSetVolume(t *testing.T) {
 			name: "Can set volume",
 			volume: 0.1,
 			inputSignal: &Signal{
-				Signal:   []float64{1, 2},
+				Data:   []float64{1, 2},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{0.1, 0.2},
@@ -83,7 +83,7 @@ func TestSetVolume(t *testing.T) {
 			name: "Cannot set volume over 0.5",
 			volume: 100,
 			inputSignal: &Signal{
-				Signal:   []float64{1},
+				Data:   []float64{1},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{0.5},
@@ -92,7 +92,7 @@ func TestSetVolume(t *testing.T) {
 			name: "Cannot set negative volume",
 			volume: -100,
 			inputSignal: &Signal{
-				Signal:   []float64{1},
+				Data:   []float64{1},
 				SampleRate: 4,
 			},
 			expectedSignal: []float64{0},
@@ -103,7 +103,7 @@ func TestSetVolume(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.inputSignal.SetVolume(tt.volume)
 
-			assert.Equal(t, tt.expectedSignal, tt.inputSignal.Signal)
+			assert.Equal(t, tt.expectedSignal, tt.inputSignal.Data)
 		})
 	}
 }
@@ -118,12 +118,12 @@ func TestSuperpose(t *testing.T) {
 		{
 			name: "Cna add two signals",
 			inputSignal: &Signal{
-				Signal:   []float64{1, -2, 3, -4},
+				Data:   []float64{1, -2, 3, -4},
 				SampleRate: 4,
 			},
 			signalsToAdd: []*Signal{
 				{
-					Signal:   []float64{1, 2, 3, -4},
+					Data:   []float64{1, 2, 3, -4},
 					SampleRate: 4,
 				},
 			},
@@ -132,16 +132,16 @@ func TestSuperpose(t *testing.T) {
 		{
 			name: "Can add multiple signals",
 			inputSignal: &Signal{
-				Signal:   []float64{1, 2, 3, 4},
+				Data:   []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			signalsToAdd: []*Signal{
 				{
-					Signal:   []float64{1, 2, 3, 4},
+					Data:   []float64{1, 2, 3, 4},
 					SampleRate: 4,
 				},
 				{
-					Signal:   []float64{1, 2, 3, 4},
+					Data:   []float64{1, 2, 3, 4},
 					SampleRate: 4,
 				},
 			},
@@ -150,12 +150,12 @@ func TestSuperpose(t *testing.T) {
 		{
 			name: "Can add signals of different length",
 			inputSignal: &Signal{
-				Signal:   []float64{1, 2, 3, 4},
+				Data:   []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			signalsToAdd: []*Signal{
 				{
-					Signal:   []float64{1, 2},
+					Data:   []float64{1, 2},
 					SampleRate: 4,
 				},
 			},
@@ -164,12 +164,12 @@ func TestSuperpose(t *testing.T) {
 		{
 			name: "Cannot add signals with different sample rates",
 			inputSignal: &Signal{
-				Signal:   []float64{1, 2, 3, 4},
+				Data:   []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			signalsToAdd: []*Signal{
 				{
-					Signal:   []float64{1, 2, 3, 4},
+					Data:   []float64{1, 2, 3, 4},
 					SampleRate: 5,
 				},
 			},
@@ -180,7 +180,7 @@ func TestSuperpose(t *testing.T) {
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
 			got := tt.inputSignal.Superpose(tt.signalsToAdd...)
-			assert.Equal(t, tt.expectedSignal, got.Signal)
+			assert.Equal(t, tt.expectedSignal, got.Data)
 		})
 	}
 }
@@ -198,7 +198,7 @@ func TestWrite(t *testing.T) {
 		{
 			name: "Can write signal",
 			inputSignal: &Signal{
-				Signal:     []float64{1, 2, 3, 4},
+				Data:     []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			finalVolume:  0.5,
@@ -207,7 +207,7 @@ func TestWrite(t *testing.T) {
 		{
 			name: "Max volume is 0.5",
 			inputSignal: &Signal{
-				Signal:     []float64{1, 2, 3, 4},
+				Data:     []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			finalVolume:  100,
@@ -216,7 +216,7 @@ func TestWrite(t *testing.T) {
 		{
 			name: "Min volume is 0",
 			inputSignal: &Signal{
-				Signal:     []float64{1, 2, 3, 4},
+				Data:     []float64{1, 2, 3, 4},
 				SampleRate: 4,
 			},
 			finalVolume:  -100,

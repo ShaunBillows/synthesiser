@@ -1,1 +1,1 @@
-A simple additive synthesiser.
+A simple Golang additive synthesiser.

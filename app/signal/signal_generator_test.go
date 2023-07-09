@@ -31,12 +31,12 @@ func TestSineWaveGenerate(t *testing.T) {
         t.Run(tt.name, func(t *testing.T) {
             got := tt.generator.Generate()
 
-            assert.Equal(t, tt.expectedLength, len(got.Signal), "Expected length of 4")
+            assert.Equal(t, tt.expectedLength, len(got.Data), "Expected length of 4")
             assert.Equal(t, tt.generator.SampleRate, got.SampleRate, "Expected original sample rate")
-            assert.Equal(t, tt.expectedFirstSample, got.Signal[0], "Expect to start at 0")
-			assert.Equal(t, tt.expectedLastSample, got.Signal[3], "Expect to end at -1")
-			assert.Equal(t, tt.expectedMaxSample, got.Signal[1], "Expect max value to be at first index")
-			assert.Equal(t, tt.expectedMinSample, got.Signal[3], "Expect min value to be at last index")
+            assert.Equal(t, tt.expectedFirstSample, got.Data[0], "Expect to start at 0")
+			assert.Equal(t, tt.expectedLastSample, got.Data[3], "Expect to end at -1")
+			assert.Equal(t, tt.expectedMaxSample, got.Data[1], "Expect max value to be at first index")
+			assert.Equal(t, tt.expectedMinSample, got.Data[3], "Expect min value to be at last index")
         })
     }
 }
@@ -66,12 +66,12 @@ func TestSawtoothWaveGenerate(t *testing.T) {
         t.Run(tt.name, func(t *testing.T) {
             got := tt.generator.Generate()
 
-            assert.Equal(t, tt.expectedLength, len(got.Signal), "Expect length of 4")
+            assert.Equal(t, tt.expectedLength, len(got.Data), "Expect length of 4")
             assert.Equal(t, tt.generator.SampleRate, got.SampleRate, "Expect original sample rate")
-            assert.Equal(t, tt.expectedFirstSample, got.Signal[0], "Expect to start at 0")
-			assert.Equal(t, tt.expectedLastSample, got.Signal[3], "Expect to end at -0.5")
-			assert.Equal(t, tt.expectedMaxSample, got.Signal[1], "Expect max value to be at first index")
-			assert.Equal(t, tt.expectedMinSample, got.Signal[2], "Expect min value to be at second index")
+            assert.Equal(t, tt.expectedFirstSample, got.Data[0], "Expect to start at 0")
+			assert.Equal(t, tt.expectedLastSample, got.Data[3], "Expect to end at -0.5")
+			assert.Equal(t, tt.expectedMaxSample, got.Data[1], "Expect max value to be at first index")
+			assert.Equal(t, tt.expectedMinSample, got.Data[2], "Expect min value to be at second index")
         })
     }
 }
@@ -101,12 +101,12 @@ func TestSquareWaveGenerate(t *testing.T) {
         t.Run(tt.name, func(t *testing.T) {
             got := tt.generator.Generate()
 
-            assert.Equal(t, tt.expectedLength, len(got.Signal), "Expect length of 4")
+            assert.Equal(t, tt.expectedLength, len(got.Data), "Expect length of 4")
             assert.Equal(t, tt.generator.SampleRate, got.SampleRate, "Expect original sample rate")
-            assert.Equal(t, tt.expectedFirstSample, got.Signal[0], "Expect to start at 1")
-			assert.Equal(t, tt.expectedLastSample, got.Signal[3], "Expect to end at -1")
-			assert.Equal(t, tt.expectedMaxSample, got.Signal[0], "Expect max value to be at first index")
-			assert.Equal(t, tt.expectedMinSample, got.Signal[3], "Expect min value to be at last index")
+            assert.Equal(t, tt.expectedFirstSample, got.Data[0], "Expect to start at 1")
+			assert.Equal(t, tt.expectedLastSample, got.Data[3], "Expect to end at -1")
+			assert.Equal(t, tt.expectedMaxSample, got.Data[0], "Expect max value to be at first index")
+			assert.Equal(t, tt.expectedMinSample, got.Data[3], "Expect min value to be at last index")
         })
     }
 }

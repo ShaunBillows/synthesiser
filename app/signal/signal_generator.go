@@ -26,7 +26,7 @@ func (g *SineWaveGenerator) Generate() *Signal {
 	}
 
 	return &Signal{
-		Signal:       signalData,
+		Data:       signalData,
 		SampleRate: g.SampleRate,
 	}
 }
@@ -54,7 +54,7 @@ func (g *SawtoothWaveGenerator) Generate() *Signal {
 	}
 
 	return &Signal{
-		Signal:       signalData,
+		Data:       signalData,
 		SampleRate: g.SampleRate,
 	}
 }
@@ -86,7 +86,7 @@ func (g *SquareWaveGenerator) Generate() *Signal {
 		}
 	}
 	return &Signal{
-		Signal:       signalData,
+		Data:       signalData,
 		SampleRate: g.SampleRate,
 	}
 }
