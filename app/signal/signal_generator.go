@@ -1,6 +1,10 @@
 package signal
 
-import "math"
+import (
+	"math"
+	"math/rand"
+	"time"
+)
 
 // Sine wave
 
@@ -85,6 +89,33 @@ func (g *SquareWaveGenerator) Generate() *Signal {
 			signalData[sampleNo] = -g.Volume
 		}
 	}
+	return &Signal{
+		Data:       signalData,
+		SampleRate: g.SampleRate,
+	}
+}
+
+// White noise
+
+type WhiteNoiseGenerator struct {
+	Duration  float64
+	Volume    float64
+	SampleRate float64
+}
+
+func NewWhiteNoiseGenerator(duration, volume float64, sampleRate float64) *WhiteNoiseGenerator {
+	return &WhiteNoiseGenerator{Duration: duration, Volume: volume, SampleRate: sampleRate}
+}
+
+func (g *WhiteNoiseGenerator) Generate() *Signal {
+	totalSamples := int(g.SampleRate * g.Duration)
+	signalData := make([]float64, totalSamples)
+	rand.Seed(time.Now().UnixNano())
+
+	for i := range signalData {
+		signalData[i] = g.Volume * (2*rand.Float64() - 1)
+	}
+
 	return &Signal{
 		Data:       signalData,
 		SampleRate: g.SampleRate,

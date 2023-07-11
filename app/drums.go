@@ -2,9 +2,7 @@ package app
 
 import (
 	"math"
-	"math/rand"
 	"synth/app/signal"
-	"time"
 )
 
 func NewHighHat(volume float64) *signal.Signal {
@@ -13,9 +11,9 @@ func NewHighHat(volume float64) *signal.Signal {
 	s := 0.1  
 	r := 0.02 
 
-	noiseDuration := a + d + r
+	soundDuration := a + d + r
 
-	whiteNoise := WhiteNoise(noiseDuration, volume)
+	whiteNoise := signal.NewWhiteNoiseGenerator(soundDuration, volume, SampleRate).Generate()
 	return whiteNoise.ADSR(a, d, s, r)
 }
 
@@ -46,24 +44,9 @@ func NewSnare(volume float64) *signal.Signal {
 	r := 0.1 
 
 	soundDuration := a + d + r
-	toneFrequency := 200.0
-	sineWave := signal.NewSineWave(toneFrequency, soundDuration, volume, SampleRate).Generate()
-	noise := WhiteNoise(soundDuration, volume)
+	frequency := 200.0
+	sineWave := signal.NewSineWave(frequency, soundDuration, volume, SampleRate).Generate()
+	noise := signal.NewWhiteNoiseGenerator(soundDuration, volume, SampleRate).Generate()
 	mixed := sineWave.Superpose(noise)
 	return mixed.ADSR(a, d, s, r)
-}
-
-func WhiteNoise(duration, volume float64) *signal.Signal {
-	totalSamples := int(SampleRate * duration)
-	signalData := make([]float64, totalSamples)
-	rand.Seed(time.Now().UnixNano())
-
-	for i := range signalData {
-		signalData[i] = volume * (2*rand.Float64() - 1)
-	}
-
-	return &signal.Signal{
-		Data:     signalData,
-		SampleRate: SampleRate,
-	}
 }
