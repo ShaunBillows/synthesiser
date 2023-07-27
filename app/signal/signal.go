@@ -14,7 +14,7 @@ type SignalGenerator interface {
 }
 
 type Signal struct {
-	Data   []float64
+	Data       []float64
 	SampleRate float64
 }
 
@@ -50,9 +50,9 @@ func (s *Signal) SetVolume(volume float64) {
 		volume = 0
 	}
 
-    for i, sample := range s.Data {
-        s.Data[i] = sample * volume
-    }
+	for i, sample := range s.Data {
+		s.Data[i] = sample * volume
+	}
 }
 
 func (s *Signal) Superpose(signals ...*Signal) *Signal {
@@ -81,8 +81,8 @@ func (s *Signal) Superpose(signals ...*Signal) *Signal {
 }
 
 func (s *Signal) Write(output Output, finalVolume float64) *Signal {
-    s.Normalise()
-    s.SetVolume(finalVolume)
+	s.Normalise()
+	s.SetVolume(finalVolume)
 	output.Write(s.Data)
 	return s
 }
@@ -107,13 +107,13 @@ func (s *Signal) ADSR(attackTime, decayTime, sustainLevel, releaseTime float64) 
 		t := float64(i) / s.SampleRate
 
 		if t < attackTime {
-			s.Data[i] = (maxAmplitude/attackTime) * t * sample
-		} else if t < attackTime + decayTime {
-			s.Data[i] = (maxAmplitude - ((maxAmplitude - sustainLevel)/decayTime) * (t - attackTime)) * sample
-		} else if t < float64(totalSamples)/s.SampleRate - releaseTime { 
+			s.Data[i] = (maxAmplitude / attackTime) * t * sample
+		} else if t < attackTime+decayTime {
+			s.Data[i] = (maxAmplitude - ((maxAmplitude-sustainLevel)/decayTime)*(t-attackTime)) * sample
+		} else if t < float64(totalSamples)/s.SampleRate-releaseTime {
 			s.Data[i] = sustainLevel * sample
 		} else {
-			s.Data[i] = (sustainLevel - (sustainLevel/releaseTime) * (t - float64(totalSamples)/s.SampleRate)) * sample
+			s.Data[i] = (sustainLevel - (sustainLevel/releaseTime)*(t-float64(totalSamples)/s.SampleRate)) * sample
 		}
 	}
 	return s
@@ -124,7 +124,16 @@ func (s *Signal) Add(signal *Signal) *Signal {
 	copy(newSignal, s.Data)
 	newSignal = append(newSignal, signal.Data...)
 	return &Signal{
-		Data:     newSignal,
+		Data:       newSignal,
+		SampleRate: s.SampleRate,
+	}
+}
+
+func (s *Signal) Copy() *Signal {
+	newData := make([]float64, len(s.Data))
+	copy(newData, s.Data)
+	return &Signal{
+		Data:       newData,
 		SampleRate: s.SampleRate,
 	}
 }
